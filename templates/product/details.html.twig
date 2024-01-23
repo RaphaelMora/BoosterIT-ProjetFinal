@@ -1,0 +1,64 @@
+{#http://localhost:8001/produits/Banane#}
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails de
+	{{ products.name }}
+{% endblock %}
+
+{% block body %}
+	<section class="row my-5">
+		<div class="col-lg-6 text-center d-flex justify-content-center align-content-center">
+			<img class="card-img-top" src="{{ asset('assets/uploads/products/' ~ products.images[0].name) }}" alt="{{ products.name }}" style=" object-fit: cover;">
+		</div>
+		<article class="col-lg-6">
+			<h2 class="text-center">{{ products.name }}</h2>
+			<div class="d-flex justify-content-center">
+				<span class="badge bg-warning text-dark p-2">{{ products.categories.name }}</span>
+			</div>
+			<div class="product-detail mt-5">
+				<div
+					class="row">
+					{# Colonne de gauche pour la description et le nb de like #}
+					<div class="col-md-6">
+						{% include "_fix/_like.html.twig" %}
+						<p>{{ products.description }}</p>
+					</div>
+					{# Colonne de droite pour les infos nutri #}
+					<div class="col-md-6">
+						<p>Information nutritionnelle:</p>
+						<hr>
+						<div class="d-flex justify-content-between">
+							<p>Energie</p>
+							<p>36,5 kcal</p>
+						</div>
+						<div class="d-flex justify-content-between">
+							<p>Eau</p>
+							<p>90 g</p>
+						</div>
+						<div class="d-flex justify-content-between">
+							<p>Protéines</p>
+							<p>1,38 g</p>
+						</div>
+						<div class="d-flex justify-content-between">
+							<p>Glucides</p>
+							<p>4,63 g</p>
+						</div>
+						<div class="d-flex justify-content-between">
+							<p>Lipides</p>
+							<p>0,6 g</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="text-center mt-4">
+				<h5>{{ products.price / 100 }}
+					€</h5>
+				{% if products.stock > 0 %}
+					<a class="btn btn-success" href="{{ path('app_cart_add', {id: products.id}) }}">Ajouter au panier</a>
+				{% else %}
+					<p class="text-danger">Victime de son succès</p>
+				{% endif %}
+			</div>
+		</article>
+	</section>
+{% endblock %}

@@ -1,0 +1,9 @@
+<h1>Merci d'activer votre compte</h1>
+
+<p>Bonjour
+	{{ user.email }}</p>
+<p>Veuillez cliquer sur ce
+	<a href="{{ absolute_url(path('app_verifyUser', {token:token})) }}">liens
+	</a>
+	pour activer votre compte
+</p>

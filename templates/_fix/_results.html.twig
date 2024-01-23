@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+{% block title %}Résultat de recherche
+{% endblock %}
+
+{% block body %}
+	<h2>Résultat de recherche</h2>
+	<div class="row border rounded mt-2 mb-2">
+		{% for product in products %}
+			<div class="col-sm-12 col-md-6 col-lg-4">
+				<div class="card">
+					<img class="card-img-top" style="width: 75%; max-width: 300px; margin: auto;" src="{{ asset('assets/uploads/products/mini/300x300-' ~ product.images[0].name) }}" alt="{{ product.name }}">
+					<div class="card-body text-center">
+						<h5 class="card-title">{{ product.name }}</h5>
+						<p class="card-text">{{ product.description }}</p>
+						<div>
+							<p>{{ product.price /100 }}
+								euros/Kg</p>
+						</div>
+					</div>
+					<div class="card-footer d-flex justify-content-around">
+						<a class="btn btn-success" href="{{ path('app_product_details',{slug: product.slug }) }}">Détails</a>
+						<a class="btn btn-success" href="{{ path('app_cart_add', {id: product.id })}}">Ajouter au panier</a>
+					</div>
+				</div>
+			</div>
+		{%endfor %}
+	</div>
+{% endblock %}

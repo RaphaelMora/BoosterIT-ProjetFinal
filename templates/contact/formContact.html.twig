@@ -1,0 +1,9 @@
+{#http://localhost:8001/contact#}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<h1>Contactez-nous</h1>
+	{{ form_start(contactForm) }}
+	{{ form_widget(contactForm) }}
+	{{ form_end(contactForm) }}
+{% endblock %}

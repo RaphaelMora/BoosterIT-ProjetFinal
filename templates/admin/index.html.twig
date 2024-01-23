@@ -1,0 +1,85 @@
+{#http://localhost:8001/admin/#}
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Administration
+{% endblock %}
+{% block body %}
+	<section class="row">
+		<h2>Administration</h2>
+		<article class="col-sm-12 col-md-6 border p-2 mt-3">
+
+			<div class="card mb-3">
+				<div class="card-header">
+					<h3>Catégories</h3>
+				</div>
+				<div class="card-body mb-3">
+					<p>
+						<a href="{{ path('app_admin_categories_index') }}">Liste des catégories</a>
+					</p>
+					<p>
+						<a href="{{ path('app_admin_categories_add') }}">Ajouter des catégories</a>
+					</p>
+				</div>
+			</div>
+			<div class="card mb-3">
+				<div class="card-header">
+					<h3>Produits</h3>
+				</div>
+				<div class="card-body mb-3">
+					<p>
+						<a href="{{ path('app_admin_products_index') }}">Liste des produits</a>
+					</p>
+					<p>
+						<a href="{{ path('app_admin_products_add') }}">Ajouter un produit</a>
+					</p>
+				</div>
+			</div>
+			<div class="card mb-3">
+				<div class="card-header">
+					<h3>Utilisateurs</h3>
+				</div>
+				<div class="card-body mb-3">
+					<p>
+						<a href="{{ path('app_admin_users_index') }}">Liste des utilisateurs</a>
+					</p>
+				</div>
+			</div>
+			<div class="card mb-3">
+				<div class="card-header">
+					<h3>Commandes</h3>
+				</div>
+				<div class="card-body mb-3">
+					<p>
+						<a href="{{ path('app_admin_all_orders') }}">Toutes les commandes</a>
+					</p>
+				</div>
+			</div>
+		</article>
+		<aside class="col-sm-12 col-md-6 border p-2 mt-3">
+			<div class="d-flex flex-column justify-content-between" style="height: 70vh;">
+				<div>
+					<h2>Statistiques Utilisateurs</h2>
+					<p>Nombre total d'utilisateurs :
+						{{ userCount }}</p>
+					<p>Nombre total d'utilisateurs vérifié :
+						{{ verifiedUserCount }}</p>
+				</div>
+				<div>
+					<h2>Statistiques Produits</h2>
+					<p>Nombre total de produits différents:
+						{{ productCount }}</p>
+					<p>Nombre total de produits en stock:
+						{{ productQuantity }}</p>
+				</div>
+				<div>
+					<h2>Statistiques Ventes</h2>
+					<p>Nombre total de produits vendu:
+						{{ totalOrderedQuantity }}</p>
+					<p>Produits le plus vendu:
+						{{ mostSoldProduct.name  }}</p>
+				</div>
+			</div>
+		</aside>
+	</section>
+{% endblock %}

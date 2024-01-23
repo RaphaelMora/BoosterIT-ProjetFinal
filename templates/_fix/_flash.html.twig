@@ -1,0 +1,10 @@
+{%  for label, messages in app.flashes %}
+	{% for message in messages %}
+		<div class="col alert alert-{{ label }} alert-dismissible" role="alert">
+			<button type="button" class="btn-close" aria-label="Close"></button>
+			<div class="alert-message">
+				{{ message |raw }}
+			</div>
+		</div>
+	{%  endfor %}
+{% endfor %}

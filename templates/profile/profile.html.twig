@@ -1,0 +1,54 @@
+{#http://localhost:8001/profil/#}
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil
+{% endblock %}
+
+{% block body %}
+	<section class="row">
+		<article class="col-12">
+			<h2 class="card-title">Profil de
+				{{ user.lastname }}
+				{{ user.firstname }}</h2>
+			<div class="card mt-5 mb-5">
+				<div class="card-body">
+					<p class="card-text">
+						<strong>Nom:</strong>
+						{{ user.lastname }}</p>
+					<p class="card-text">
+						<strong>Prénom:</strong>
+						{{ user.firstname }}</p>
+					<p class="card-text">
+						<strong>Adresse:</strong>
+						{{ user.adress }}</p>
+					<p class="card-text">
+						<strong>Code postal:</strong>
+						{{ user.zipcode }}</p>
+					<p class="card-text">
+						<strong>Ville:</strong>
+						{{ user.city }}</p>
+				</div>
+			</div>
+			<h2 class="card-title">Navigation</h2>
+			<div class="card mt-5 mb-5">
+				<div class="card-body">
+					<div class="card-text">
+						<a href="{{ path('app_orders_list') }}">Historique de commandes</a>
+					</div>
+					<div class="card-text">
+						<a href="{{ path('app_admin_products_all') }}">Liste des produits</a>
+					</div>
+					<div class="card-text">
+						<a href="{{ path('app_cart_index') }}">Panier</a>
+					</div>
+					<div class="card-text">
+						<a href="{{ path('app_contact') }}">Nous contacter</a>
+					</div>
+					<div class="card-text">
+						<a href="{{ path('app_logout') }}">Se déconnecter</a>
+					</div>
+				</div>
+			</div>
+		</article>
+	</section>
+{% endblock %}

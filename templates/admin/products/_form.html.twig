@@ -1,0 +1,21 @@
+{{ form_start(productForm) }}
+
+{{ form_row(productForm.name) }}
+{{ form_row(productForm.description) }}
+{{ form_row(productForm.price) }}
+{{ form_row(productForm.stock) }}
+{{ form_row(productForm.categories) }}
+{{ form_row(productForm.images) }}
+
+{% if app.request.attributes.get('_route') == ('app_admin_products_edit') %}
+	{% for image in product.images %}
+		<img src="{{ asset('assets/uploads/products/mini/300x300-' ~ image.name) }}" alt="image" width="150">
+		<a class="text-danger" href="{{ path('app_admin_products_delete_image', {id: image.id}) }}" data-delete data-token="{{ csrf_token('delete' ~ image.id) }}">Supprimer</a>
+	{% endfor %}
+{% endif %}
+
+<div class=" d-flex justify-content-center ">
+	<button class="btn btn-success m-3 w-25">{{ button_label | default('Ajouter')}}</button>
+</div>
+
+{{ form_end(productForm) }}

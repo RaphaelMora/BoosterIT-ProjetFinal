@@ -1,0 +1,110 @@
+{#http://localhost:8001/commandes/historique#}
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Mes Commandes
+{% endblock %}
+
+{% block body %}
+	<h2 class="my-4">Mes Commandes</h2>
+
+	{% if userOrders is empty %}
+		<div class="row">
+			<div class="col text-center">
+				<p class="text-danger mt-2">Vous n'avez pas encore passé de commande.</p>
+			</div>
+		</div>
+	{% else %}
+		{# En-têtes pour lg #}
+		<article class="row d-none d-lg-flex justify-content-around border-bottom mb-3">
+			<div class="col text-center fw-bold">Référence de la Commande</div>
+			<div class="col text-center fw-bold">Status de la Commande</div>
+			<div class="col text-center fw-bold">Date de la Commande</div>
+			<div class="col text-center fw-bold">Détails</div>
+			<div class="col text-center fw-bold">Nombre d'Articles</div>
+			<div class="col text-center fw-bold">Prix Total</div>
+			<div class="col text-center fw-bold">Factures</div>
+		</article>
+		{# Contenu des commandes #}
+		{% for order in userOrders %}
+			{% set totalOrderPrice = 0 %}
+			{% set totalOrderQuantity = 0 %}
+
+			{% for orderDetail in order.getOrdersDetails() %}
+				{% set totalOrderPrice = totalOrderPrice + (orderDetail.quantity * orderDetail.price / 100) %}
+				{% set totalOrderQuantity = totalOrderQuantity + orderDetail.quantity %}
+			{% endfor %}
+			{#	Contenu pour sm et md #}
+			<article class="row border-bottom mb-3 d-lg-none">
+				<div class="col-6 text-start fw-bold">Référence:</div>
+				<div class="col-6 text-end">{{ order.reference }}</div>
+				<div class="col-4 text-start fw-bold">Status:</div>
+				{% if is_granted('ROLE_ADMIN') %}
+				<div class="col-8 text-end">
+					<form action="{{ path('app_orders_update_status', {'id': order.id}) }}" method="post">
+						<select name="status" onchange="this.form.submit()">
+							{% for status in ['Commande validée', 'En préparation', 'Envoyée', 'Livré', 'Retrait en magasin', 'Annulé'] %}
+								<option value="{{ status }}" {{ order.status == status ? 'selected' : '' }}>{{ status }}</option>
+							{% endfor %}
+						</select>
+					</form>
+				</div>
+				{% else %}
+					<div class="col-8 text-end">
+						{{ order.status ?: 'En attente' }}
+					</div>
+				{% endif %}
+				<div class="col-6 text-start fw-bold">Date:</div>
+				<div class="col-6 text-end">{{ order.createdAt|date('d/m/Y H:i:s') }}</div>
+				<div class="col-6 text-start fw-bold">Détails:</div>
+				<div class="col-6 text-end">
+					{% for orderDetail in order.getOrdersDetails() %}
+						<p>{{ orderDetail.products.name }}
+							- qte:
+							{{ orderDetail.quantity }}</p>
+					{% endfor %}
+				</div>
+				<div class="col-6 text-start fw-bold">Total Articles:</div>
+				<div class="col-6 text-end">{{ totalOrderQuantity }}</div>
+				<div class="col-6 text-start fw-bold">Prix Total:</div>
+				<div class="col-6 text-end">{{ totalOrderPrice }}€</div>
+				<div class="col-6 text-start fw-bold">Factures</div>
+				<div class="col-6 text-end">
+					<a href="{{ path('app_pdf', {'id': order.id}) }}" class="fas fa-download"></a>
+				</div>
+			</article>
+			{# Contenu pour lg#}
+			<article class="row d-none d-lg-flex justify-content-around align-items-center border-bottom mb-3">
+				<div class="col text-center">{{ order.reference }}</div>
+				{% if is_granted('ROLE_ADMIN') %}
+					<div class="col text-center">
+						<form action="{{ path('app_orders_update_status', {'id': order.id}) }}" method="post">
+							<select name="status" onchange="this.form.submit()">
+								{% for status in ['Commande validée', 'En préparation', 'Envoyée', 'Livré', 'Retrait en magasin', 'Annulé'] %}
+									<option value="{{ status }}" {{ order.status == status ? 'selected' : '' }}>{{ status }}</option>
+								{% endfor %}
+							</select>
+						</form>
+					</div>
+				{% else %}
+					<div class="col text-center">
+						{{ order.status ?: 'En attente' }}
+					</div>
+				{% endif %}
+				<div class="col text-center">{{ order.createdAt|date('d/m/Y H:i:s') }}</div>
+				<div class="col text-center">
+					{% for orderDetail in order.getOrdersDetails() %}
+						<p>{{ orderDetail.products.name }}
+							- qte:
+							{{ orderDetail.quantity }}</p>
+					{% endfor %}
+				</div>
+				<div class="col text-center">{{ totalOrderQuantity }}</div>
+				<div class="col text-center">{{ totalOrderPrice }}€</div>
+				<div class="col text-center">
+					<a href="{{ path('app_pdf', {'id': order.id}) }}" class="fas fa-download"></a>
+				</div>
+			</article>
+		{% endfor %}
+	{% endif %}
+{% endblock %}

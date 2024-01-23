@@ -1,0 +1,30 @@
+{#Menu de pagination#}
+{% if pages > 1 %}
+	<nav>
+		<ul class="pagination d-flex justify-content-center ">
+			{% if currentPage > 1 %}
+				<li class="page-item ">
+					<a class="page-link border-success text-dark" href="{{ path(path, {slug : slug, page : currentPage - 1}) }}">Précédent</a>
+				</li>
+			{% else %}
+				<li class="page-item disabled d-none">
+					<a class="page-link border-success text-dark">Précédent</a>
+				</li>
+			{% endif %}
+			{% for page in 1..pages %}
+				<li class="page-item {{ (page == currentPage) ? 'active' : '' }} ">
+					<a class="page-link border-success text-dark" href="{{ path(path, {slug : slug, page : page }) }}">{{page}}</a>
+				</li>
+			{% endfor %}
+			{% if currentPage < pages %}
+				<li class="page-item">
+					<a class="page-link border-success text-dark" href="{{ path(path, {slug : slug, page : currentPage + 1}) }}">Suivant</a>
+				</li>
+			{% else %}
+				<li class="page-item disabled d-none">
+					<a class="page-link border-success text-dark">Suivant</a>
+				</li>
+			{% endif %}
+		</ul>
+	</nav>
+{% endif %}

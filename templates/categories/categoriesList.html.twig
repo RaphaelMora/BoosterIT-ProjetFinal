@@ -1,0 +1,36 @@
+{#http://localhost:8001/categories/fruits#}
+{% extends 'base.html.twig' %}
+
+{% block title %}Listes produits
+{% endblock %}
+
+{% block body %}
+	<h2>Listes des
+		{{ categories.name }}</h2>
+	<section class="row border rounded mt-2 mb-2">
+		{% for product in products.data %}
+			<article class="col-sm-12 col-md-6 col-lg-4 p-2 d-flex">
+				<div class="card border-success h-100 d-flex flex-column">
+					<div class="hover-img">
+						<img class="card-img-top" src="{{ asset('assets/uploads/products/' ~ product.images[0].name) }}" alt="{{ product.name }}" style="height: 200px; object-fit: cover;">
+					</div>
+					<div class="card-body text-center">
+						<h5 class="card-title" style="{{ 'font-size: ' ~ (app.request.get('screen') == 'lg' ? '1.25rem;' : '1rem;') }}">{{ product.name }}</h5>
+						<p class="card-text" style="{{ 'height: ' ~ (app.request.get('screen') == 'sm' ? '50px;' : 'auto;') }}">{{ product.price / 100 }}
+							€</p>
+					</div>
+					<div class="card-footer mt-auto d-flex justify-content-around">
+						<a class="btn btn-success m-1" href="{{ path('app_product_details', {slug: product.slug }) }}">Détails</a>
+						<a class="btn btn-success m-1" href="{{ path('app_cart_add', {id: product.id}) }}">Ajouter au panier</a>
+					</div>
+				</div>
+			</article>
+		{% endfor %}
+	</section>
+	{#	Pagination#}
+	{% set path = 'app_categories_list' %}
+	{% set slug = categories.slug %}
+	{% set pages = products.pages %}
+	{% set currentPage = products.page %}
+	{% include "_fix/_pagination.html.twig" %}
+{% endblock %}

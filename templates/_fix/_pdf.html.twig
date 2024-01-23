@@ -1,0 +1,30 @@
+<h1>Détails de la Commande</h1>
+<p>Référence de la Commande :
+	{{ order.getReference() }}</p>
+<p>Date de la Commande :
+	{{ order.getCreatedAt()|date('Y-m-d') }}</p>
+
+<h2>Articles</h2>
+<div>
+	<div class="d-flex flex-column">
+		{% set total = 0 %}
+		{% for detail in orderDetails %}
+			<div class="d-flex">
+				<p>Produit:
+					{{ detail.product }}</p>
+				<p>Quantité:
+					{{ detail.quantity }}</p>
+				<p>Prix unitaire:
+					{{ detail.price / 100 }}
+					euros</p>
+			</div>
+			<br/>
+			{% set total = total + (detail.price * detail.quantity) %}
+		{% endfor %}
+		<p>
+			<strong>Total:
+				{{ total / 100 }}
+				euros</strong>
+		</p>
+	</div>
+</div>

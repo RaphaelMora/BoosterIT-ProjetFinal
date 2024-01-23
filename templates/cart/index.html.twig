@@ -1,0 +1,112 @@
+{#http://localhost:8001/cart/#}
+{% extends 'base.html.twig' %}
+{% block title %}
+	Panier
+{% endblock %}
+
+{% block body %}
+<h2 class="my-4">Panier</h2>
+{% for element in data %}
+	{# En-têtes pour sm et md#}
+	<article class="row d-lg-none border-bottom mb-3">
+		<div class="col-6 text-start">
+			<p class="fw-bold">Produit</p>
+		</div>
+		<div class="col-6 text-end">
+			<p>{{ element.product.name }}</p>
+		</div>
+		<div class="col-6 text-start">
+			<p class="fw-bold">Prix</p>
+		</div>
+		<div class="col-6 text-end">
+			<p>{{ element.product.price / 100 }}
+				euros</p>
+		</div>
+		<div class="col-6 text-start">
+			<p class="fw-bold">Quantité</p>
+		</div>
+		<div class="col-6 text-end">
+			<p>{{ element.quantity }}</p>
+		</div>
+		<div class="col-6 text-start">
+			<p class="fw-bold">Action</p>
+		</div>
+		<div class="col-6 text-end">
+			<div>
+				<a class="btn btn-success btn-sm" href="{{ path('app_cart_add', {id: element.product.id}) }}">+</a>
+				<a class="btn btn-warning btn-sm" href="{{ path('app_cart_remove', {id: element.product.id}) }}">-</a>
+				<a class="btn btn-danger btn-sm" href="{{ path('app_cart_delete', {id: element.product.id}) }}">Supprimer</a>
+			</div>
+		</div>
+		<hr>
+		<div class="col-6 text-start">
+			<p class="fw-bold">Total</p>
+		</div>
+		<div class="col-6 text-end">
+			<p class="fw-bold">{{ element.product.price * element.quantity / 100 }}
+				euros</p>
+		</div>
+	</article>
+{% else %}
+
+{% endfor %}
+{# En-têtes et contenu du panier pour lg #}
+<article class="row d-none d-lg-flex justify-content-around border-bottom mb-3">
+	<div class="col-lg-2 text-center">
+		<p class="fw-bold">Produit</p>
+	</div>
+	<div class="col-lg-2 text-center">
+		<p class="fw-bold">Prix</p>
+	</div>
+	<div class="col-lg-2 text-center">
+		<p class="fw-bold">Quantité</p>
+	</div>
+	<div class="col-lg-2 text-center">
+		<p class="fw-bold">Action</p>
+	</div>
+	<div class="col-lg-2 text-center">
+		<p class="fw-bold">Total</p>
+	</div>
+</article>
+{% for element in data %}
+	<div class="row d-none d-lg-flex justify-content-around align-items-center border-bottom mt-2">
+		<div class="col-lg-2 text-center">
+			<p>{{ element.product.name }}</p>
+		</div>
+		<div class="col-lg-2 text-center">
+			<p>{{ element.product.price / 100 }}
+				€</p>
+		</div>
+		<div class="col-lg-2 text-center">
+			<p>{{ element.quantity }}</p>
+		</div>
+		<div class="col-lg-2 text-center">
+			<div>
+				<a class="btn btn-success btn-sm m-1" href="{{ path('app_cart_add', {id: element.product.id}) }}">+</a>
+				<a class="btn btn-warning btn-sm m-1" href="{{ path('app_cart_remove', {id: element.product.id}) }}">-</a>
+				<a class="btn btn-danger btn-sm m-1" href="{{ path('app_cart_delete', {id: element.product.id}) }}">Supprimer</a>
+			</div>
+		</div>
+		<div class="col-lg-2 text-center">
+			<p class="fw-bold">{{ (element.product.price * element.quantity) / 100 }}
+				€</p>
+		</div>
+	</div>
+{% else %}
+	<div class="row">
+		<div class="col-12 text-center">
+			<p class="text-danger mt-2">Votre panier est vide.</p>
+		</div>
+	</div>
+</div>{% endfor %}{# Total commande et boutons pour lg #}<article class="row mt-3 align-items-center">
+<div class="col-12 col-md-6 col-lg-8 text-md-end text-lg-end">
+	<p class="fw-bold">Total commande</p>
+</div>
+<div class="col-12 col-md-6 col-lg-2 text-md-start text-lg-start">
+	<p class="fw-bold">{{ total / 100 }}
+		€</p>
+</div>
+<div class="col-12 col-md-12 col-lg-2 d-md-flex justify-content-md-between justify-content-lg-end">
+	<a class="btn btn-danger m-2" href="{{ path('app_cart_empty') }}">Vider</a>
+	<a class="btn btn-success m-2" href="{{ path('app_orders_add') }}">Commander</a>
+</div></article>{% endblock %}

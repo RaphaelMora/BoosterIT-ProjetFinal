@@ -1,0 +1,110 @@
+{#http://localhost:8001/admin/produits/#}
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Liste des Produits
+{% endblock %}
+
+{% block body %}
+	<h2 class="my-4">Liste des Produits</h2>
+	{# En-têtes pour lg #}
+	<section class="row d-none d-lg-flex justify-content-around border-bottom mb-3">
+		<article class="col-sm-2 col-md-6 col-lg-12 d-flex justify-content-around border-bottom mb-3 mt-3">
+			<div class="col-sm-2 col-md-6 col-lg-1 text-center">
+				<p class="fw-bold">ID</p>
+			</div>
+			<div class="col-sm-2 col-md-6 col-lg-2 text-center">
+				<p class="fw-bold">Nom</p>
+			</div>
+			<div class="col-sm-2 col-md-6 col-lg-2 text-center">
+				<p class="fw-bold">Catégorie</p>
+			</div>
+			<div class="col-sm-2 col-md-6 col-lg-1 text-center">
+				<p class="fw-bold">Stock</p>
+			</div>
+			<div class="col-sm-2 col-md-6 col-lg-2 text-center">
+				<p class="fw-bold">Prix</p>
+			</div>
+			<div class="col-sm-2 col-md-6 col-lg-2 text-center">
+				<p class="fw-bold">Image</p>
+			</div>
+			<div class="col-sm-2 col-md-6 col-lg-2 text-center">
+				<p class="fw-bold">Actions</p>
+			</div>
+		</article>
+	</section>
+	{# Contenu pour sm et md #}
+	{% for product in products %}
+		<article class="row border-bottom mb-3 d-lg-none">
+			<div class="col-6 text-start">
+				<p class="fw-bold">ID:
+					{{ product.id }}</p>
+			</div>
+			<div class="col-6 text-end">
+				<p class="fw-bold">Nom:
+					{{ product.name }}</p>
+			</div>
+			<div class="col-6 text-start">
+				<p>Catégorie:
+					{{ product.categories.name }}</p>
+			</div>
+			<div class="col-6 text-end">
+				<p>Stock:
+					{{ product.stock }}</p>
+			</div>
+			<div class="col-6 text-start">
+				<p>Prix:
+					{{ product.price / 100 }}
+					euros</p>
+			</div>
+			<div class="col-6 text-end d-flex justify-content-end">
+				<a class="btn btn-primary btn-sm m-1" href="{{ path('app_admin_products_edit', {id: product.id}) }}">
+					<i class="fas fa-pen"></i>
+				</a>
+				<a class="btn btn-danger btn-sm m-1" href="{{ path('app_admin_products_delete', {id: product.id}) }}">
+					<i class="fas fa-trash"></i>
+				</a>
+			</div>
+		</article>
+	{% else %}
+		<div class="row">
+			<div class="col text-center">
+				<p class="text-danger mt-2">Aucun produit trouvé.</p>
+			</div>
+		</div>
+	{% endfor %}
+	{# Contenu pour lg #}
+	{% for product in products %}
+		<article class="row d-none d-lg-flex justify-content-around align-items-center border-bottom mb-3">
+			<div class="col-sm-2 col-md-6 col-lg-1 text-center">
+				<p>{{ product.id }}</p>
+			</div>
+			<div class="col-sm-2 col-md-6 col-lg-2 text-center">
+				<p>{{ product.name }}</p>
+			</div>
+			<div class="col-sm-2 col-md-6 col-lg-2 text-center">
+				<p>{{ product.categories.name }}</p>
+			</div>
+			<div class="col-sm-2 col-md-6 col-lg-1 text-center">
+				<p>{{ product.stock }}</p>
+			</div>
+			<div class="col-sm-2 col-md-6 col-lg-2 text-center">
+				<p>{{ product.price /100 }}
+					€</p>
+			</div>
+			<div class="col-sm-2 col-md-6 col-lg-2 text-center">
+				<div>
+					<img class="card-img-top" src="{{ asset('assets/uploads/products/' ~ product.images[0].name) }}" alt="{{ product.name }}" style="height: 200px; object-fit: cover;">
+				</div>
+			</div>
+			<div class="col-sm-2 col-md-6 col-lg-2 d-flex justify-content-around">
+				<a class="mt-3" href="{{ path('app_admin_products_edit', {id: product.id}) }}">
+					<i class="fas fa-pen"></i>
+				</a>
+				<a href="{{ path('app_admin_products_delete', {id: product.id}) }}">
+					<i class="fas fa-trash"></i>
+				</a>
+			</div>
+		</article>
+	{% endfor %}
+{% endblock %}

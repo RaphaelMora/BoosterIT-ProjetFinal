@@ -1,0 +1,50 @@
+<div class="px-3 bg-success mb-4">
+	<nav class="navbar navbar-expand-lg navbar-light">
+		<div class="container-fluid">
+			<a href="{{ path('app_main') }}" class="navbar-brand">
+				<h1 class="display-6 text-white">Épices & Riz</h1>
+			</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					<li class="nav-item">
+						<a class="nav-link text-white" href="{{ path('app_main') }}">Accueil</a>
+					</li>
+					<li class="nav-item">
+						<a href="{{ path('app_admin_products_all') }}" class="nav-link text-white">Produits</a>
+					</li>
+					<li class="nav-item">
+						<a href="{{ path('app_cart_index') }}" class="nav-link text-white">Panier</a>
+					</li>
+					<li class="nav-item">
+						<a href="{{ path('app_contact') }}" class="nav-link text-white">Contact</a>
+					</li>
+				</ul>
+				<ul class="navbar-nav">
+					{% if app.user %}
+						{% if is_granted('ROLE_ADMIN') %}
+							<li class="nav-item">
+								<a class="nav-link text-white" href="{{ path('app_admin_index') }}">Administration</a>
+							</li>
+						{% endif %}
+						<li class="nav-item">
+							<a class="nav-link text-white" href="{{ path('app_profile_index') }}">Mon compte</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link text-white" href="{{ path('app_logout') }}">Se déconnecter</a>
+						</li>
+					{% else %}
+						<li class="nav-item">
+							<a class="nav-link text-white" href="{{ path('app_login') }}">Se connecter</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link text-white" href="{{ path('app_register') }}">S'inscrire</a>
+						</li>
+					{% endif %}
+				</ul>
+			</div>
+		</div>
+	</nav>
+</div>

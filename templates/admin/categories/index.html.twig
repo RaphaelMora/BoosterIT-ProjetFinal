@@ -1,0 +1,55 @@
+{#http://localhost:8001/admin/categories/#}
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Liste des catégories
+{% endblock %}
+{% block body %}
+	<section>
+		<article class="row">
+			<h2>Liste des catégories</h2>
+			<div class="col-sm-2 col-md-6 col-lg-12 d-flex justify-content-around border-bottom mb-3">
+				<div class="col-sm-2 col-md-6 col-lg-2 text-center">
+					<p class="fw-bold">ID</p>
+				</div>
+				<div class="col-sm-2 col-md-6 col-lg-2 text-center">
+					<p class="fw-bold">Nom</p>
+				</div>
+				<div class="col-sm-2 col-md-6 col-lg-2 text-center">
+					<p class="fw-bold">Parent</p>
+				</div>
+				<div class="col-sm-2 col-md-6 col-lg-2 text-center">
+					<p class="fw-bold">Slug</p>
+				</div>
+				<div class="col-sm-2 col-md-6 col-lg-2 text-center">
+					<p class="fw-bold">Ordre</p>
+				</div>
+			</div>
+		</article>
+		<article class="row">
+			{% for category in categories %}
+				<div class="col-sm-2 col-md-6 col-lg-12 d-flex justify-content-around border-bottom mb-3 {% if category.parent == null %}bg-light fw-bold{% endif %}">
+					<div class="col-lg-2 text-center">
+						<p>{{ category.id }}</p>
+					</div>
+					<div class="col-lg-2 text-center">
+						<p>{{ category.name }}</p>
+					</div>
+					<div class="col-lg-2 text-center">
+						<p>
+							{% if category.parent is not null  %}
+								{{ category.parent.name }}
+							{% endif %}
+						</p>
+					</div>
+					<div class="col-lg-2 text-center">
+						<p>{{ category.slug }}</p>
+					</div>
+					<div class="col-lg-2 text-center">
+						<p>{{ category.categoryOrder }}</p>
+					</div>
+				</div>
+			{% endfor %}
+		</article>
+	</section>
+{% endblock %}

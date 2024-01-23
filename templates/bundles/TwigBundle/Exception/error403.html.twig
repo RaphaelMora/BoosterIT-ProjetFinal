@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Error
+{% endblock %}
+
+{% block body %}
+    <div class="row mt-5 mb-5">
+        <div class="col-md-12">
+            <div class="error-template text-center">
+                <h2 class="text-success">
+                    Oops!</h2>
+                <h3 class="text-success">
+                    403 Forbidden</h3>
+                <div class="error-details mt-3 mb-3">
+                    <img class="w-25" src="{{ asset('assets/img/sad.png') }}" alt="">
+                    <h3 class="text-success">Désolé, on est tombé sur un pépin!</h3>
+                </div>
+                <div class="error-actions flex-row mb-5">
+                    <a href="{{ path('app_main') }}" class="btn btn-success btn-md m-3 mb-4">
+                        <span class="glyphicon glyphicon-home"></span>Menu principal
+                    </a>
+                    <a href="{{ path('app_contact') }}" class="btn btn-warning btn-md m-3 mb-4">
+                        <span class="glyphicon glyphicon-envelope"></span>
+                        Nous contacter
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

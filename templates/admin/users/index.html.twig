@@ -1,0 +1,144 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Liste des Utilisateurs
+{% endblock %}
+
+{% block body %}
+	<h2 class="my-4 text-center">Liste des Utilisateurs</h2>
+	{# En-têtes pour lg #}
+	<article class="row d-none d-lg-flex justify-content-around border-bottom mb-3">
+		<div class="col-lg-1 text-center">
+			<p class="fw-bold">ID</p>
+		</div>
+		<div class="col-lg-1 text-center">
+			<p class="fw-bold">Nom</p>
+		</div>
+		<div class="col-lg-1 text-center">
+			<p class="fw-bold">Prenom</p>
+		</div>
+		<div class="col-lg-2 text-center">
+			<p class="fw-bold">Email</p>
+		</div>
+		<div class="col-lg-2 text-center">
+			<p class="fw-bold">Adresse</p>
+		</div>
+		<div class="col-lg-2 text-center">
+			<p class="fw-bold">Role</p>
+		</div>
+		<div class="col-lg-1 text-center">
+			<p class="fw-bold">Vérifié</p>
+		</div>
+		<div class="col-lg-1 text-center">
+			<p class="fw-bold">Action</p>
+		</div>
+	</article>
+	{% for user in users %}
+		{# Contenu pour sm et md #}
+		<article class="row border-bottom mb-3 d-lg-none">
+			<div class="col-3 text-start">
+				<p class="fw-bold">ID</p>
+			</div>
+			<div class="col-9 text-end">
+				<p>{{ user.id }}</p>
+			</div>
+			<div class="col-3 text-start">
+				<p class="fw-bold">Nom</p>
+			</div>
+			<div class="col-9 text-end">
+				<p>{{ user.lastname }}</p>
+			</div>
+			<div class="col-3 text-start">
+				<p class="fw-bold">Prenom</p>
+			</div>
+			<div class="col-9 text-end">
+				<p>{{ user.firstname }}</p>
+			</div>
+			<div class="col-3 text-start">
+				<p class="fw-bold">Email</p>
+			</div>
+			<div class="col-9 text-end">
+				<p>{{ user.email }}</p>
+			</div>
+			<div class="col-3 text-start">
+				<p class="fw-bold">Adresse</p>
+			</div>
+			<div class="col-9 text-end">
+				<p>{{ user.adress }},
+					{{ user.zipcode }}
+					{{ user.city }}</p>
+			</div>
+			<div class="col-3 text-start">
+				<p class="fw-bold">Role</p>
+			</div>
+			<form action="{{ path('app_admin_users_update_role', {'id': user.id}) }}" method="post">
+				<select name="role" onchange="this.form.submit()">
+					<option value="ROLE_USER" {% if 'ROLE_USER' in user.roles %} selected {% endif %}>Utilisateur</option>
+					<option value="ROLE_ADMIN" {% if 'ROLE_ADMIN' in user.roles %} selected {% endif %}>Administrateur</option>
+					<option value="ROLE_SUPER_ADMIN" {% if 'ROLE_SUPER_ADMIN' in user.roles %} selected {% endif %}>Super Administrateur</option>
+				</select>
+			</form>
+			<div class="col-3 text-start">
+				<p class="fw-bold">Vérifié</p>
+			</div>
+			<div class="col-9 text-end">
+				<div class="col-sm-2 col-md-6 col-lg-1 form-check d-flex justify-content-center">
+					<input class="form-check-input " type="checkbox" value="" id="switch{{ user.id }}" {{ user.isVerified ? "checked" : "" }} disabled>
+					<label class="form-check-label" for="flexCheckCheckedDisabled"></label>
+				</div>
+			</div>
+			<div class="col-3 text-start">
+				<p class="fw-bold">Action</p>
+			</div>
+			<div class="col-9 text-end">
+				<a href="{{ path('app_admin_products_delete', {id: user.id}) }}">
+					<i class="fas fa-trash"></i>
+				</a>
+			</div>
+		</article>
+		{# Contenu pour lg #}
+		<article class="row d-none d-lg-flex justify-content-around align-items-center border-bottom mb-3">
+			<div class="col-lg-1 text-center">
+				<p>{{ user.id }}</p>
+			</div>
+			<div class="col-lg-1 text-center">
+				<p>{{ user.lastname }}</p>
+			</div>
+			<div class="col-lg-1 text-center">
+				<p>{{ user.firstname }}</p>
+			</div>
+			<div class="col-lg-2 text-center">
+				<p>{{ user.email }}</p>
+			</div>
+			<div class="col-lg-2 text-center">
+				<p>{{ user.adress }},
+					{{ user.zipcode }}
+					{{ user.city }}</p>
+			</div>
+			<div class="col-lg-2 text-center">
+				<form action="{{ path('app_admin_users_update_role', {'id': user.id}) }}" method="post">
+					<select name="role" onchange="this.form.submit()">
+						<option value="ROLE_USER" {% if 'ROLE_USER' in user.roles %} selected {% endif %}>Utilisateur</option>
+						<option value="ROLE_ADMIN" {% if 'ROLE_ADMIN' in user.roles %} selected {% endif %}>Administrateur</option>
+						<option value="ROLE_SUPER_ADMIN" {% if 'ROLE_SUPER_ADMIN' in user.roles %} selected {% endif %}>Super Administrateur</option>
+					</select>
+				</form>
+			</div>
+			<div class="col-lg-1 form-check d-flex justify-content-center">
+				<div class="col-sm-2 col-md-6 col-lg-1 form-check d-flex justify-content-center">
+					<input class="form-check-input " type="checkbox" value="" id="switch{{ user.id }}" {{ user.isVerified ? "checked" : "" }} disabled>
+					<label class="form-check-label" for="flexCheckCheckedDisabled"></label>
+				</div>
+			</div>
+			<div class="col-lg-1 text-center">
+				<a href="{{ path('app_admin_users_delete', {id: user.id}) }}">
+					<i class="fas fa-trash"></i>
+				</a>
+			</div>
+		</article>
+	{% else %}
+		<div class="col-12 text-center">
+			<p class="text-danger mt-2">Aucun utilisateur trouvé.</p>
+		</div>
+	{% endfor %}
+{% endblock %}

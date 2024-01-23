@@ -1,0 +1,106 @@
+{#http://localhost:8001/#}
+{% extends 'base.html.twig' %}
+
+{% block title %}Listes des Produits
+{% endblock %}
+
+{% block body %}
+	{#Barre de recherche#}
+	<div class="loader">
+		<div class="loader-spin">
+			<i class="fas fa-carrot"></i>
+		</div>
+	</div>
+	{% include '_fix/_searchData.html.twig' with {'form': form} only %}
+	<section
+		class="mt-4 home">
+		{#Bannière#}
+		<img
+		class="mb-3 img-fluid" src="{{ asset('assets/img/cart-page-header-img.jpg') }}" alt="Header Image">
+		{#À propos#}
+		<div class="text-center">
+			<h2>Qui sommes-nous ?</h2>
+			<cite class="d-block mt-3 text-success">
+				"Découvrez notre épicerie dédiée à des produits bio d'exception..."
+			</cite>
+			<a href="{{ path('app_contact') }}" class="btn btn-success mt-3">Nous contacter</a>
+		</div>
+		{#Nos favoris#}
+		<h2 class="text-center my-4">Nos coups de
+			<i class="fas fa-heart text-danger fs-1"></i>
+		</h2>
+		<article class="row">
+			<div class="col-12 col-sm-6 col-md-4 col-lg-2 mb-3 hover-img">
+				<a href="{{ path('app_product_details', {'slug': 'Clementine'}) }}">
+					<img src="{{ asset('assets/img/best-product-1.jpg') }}" class="img-fluid" alt="Best Product">
+				</a>
+			</div>
+			<div class="col-12 col-sm-6 col-md-4 col-lg-2 mb-3 hover-img">
+				<a href="{{ path('app_product_details', {'slug': 'Framboise'}) }}">
+					<img src="{{ asset('assets/img/best-product-2.jpg') }}" class="img-fluid" alt="Best Product">
+				</a>
+			</div>
+			<div class="col-12 col-sm-6 col-md-4 col-lg-2 mb-3 hover-img">
+				<a href="{{ path('app_product_details', {'slug': 'Banane'}) }}">
+					<img src="{{ asset('assets/img/best-product-3.jpg') }}" class="img-fluid" alt="Best Product">
+				</a>
+			</div>
+			<div class="col-12 col-sm-6 col-md-4 col-lg-2 mb-3 hover-img">
+				<a href="{{ path('app_product_details', {'slug': 'Abricot'}) }}">
+					<img src="{{ asset('assets/img/best-product-4.jpg') }}" class="img-fluid" alt="Best Product">
+				</a>
+			</div>
+			<div class="col-12 col-sm-6 col-md-4 col-lg-2 mb-3 hover-img">
+				<a href="{{ path('app_product_details', {'slug': 'Raisins'}) }}">
+					<img src="{{ asset('assets/img/best-product-5.jpg') }}" class="img-fluid" alt="Best Product">
+				</a>
+			</div>
+			<div class="col-12 col-sm-6 col-md-4 col-lg-2 mb-3 hover-img">
+				<a href="{{ path('app_product_details', {'slug': 'Pomme'}) }}">
+					<img src="{{ asset('assets/img/best-product-6.jpg') }}" class="img-fluid" alt="Best Product">
+				</a>
+			</div>
+		</article>
+		{#Rayons#}
+		<div class="text-center mt-5">
+			<h2>Nos rayons</h2>
+			<article class="row justify-content-center">
+				{% for category in categories %}
+					{% if category.parent != null %}
+						{% set imagePath = category.slug in ['fruits', 'legumes','viandes','fromages' ] ? 'assets/img/' ~ category.slug ~ '.jpg' : 'assets/img/default.jpg' %}
+						<div class="col-md-4 col-lg-3 mb-3">
+							<div class="card h-100">
+								<a href="{{ path('app_categories_list', {slug: category.slug}) }}">
+									<div class="hover-img">
+
+										<img src="{{ asset(imagePath) }}" class="card-img-top" alt="{{ category.name }}">
+									</div>
+									<div class="card-body bg-success text-white fw-bold">
+										{{ category.name }}
+									</div>
+								</a>
+							</div>
+						</div>
+					{% endif %}
+				{% endfor %}
+			</article>
+		</div>
+		{#Promotions#}
+		<article class="row justify-content-around mt-5">
+			<h2 class="text-center w-100 mb-4">Nos promotions</h2>
+			{% for i in 1..3 %}
+				<div class="col-md-4 mb-3">
+					<div class="image-container border border-warning position-relative text-center">
+						<img class="img-fluid" src="{{ asset('assets/img/featur-' ~ i ~ '.jpg') }}" alt="Feature {{ i }}">
+						<div class="promo-text position-absolute bottom-0 start-0 w-100 text-danger p-1 hover-text">
+							<p class="fs-4">
+								-{{ i * 5 + 15 }}%
+								<span class="new-text">En travaux</span>
+							</p>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</article>
+	</section>
+{% endblock %}

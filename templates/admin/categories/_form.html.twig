@@ -1,0 +1,10 @@
+{{ form_start(categoriesForm) }}
+
+{{ form_row(categoriesForm.name) }}
+{{ form_row(categoriesForm.parent) }}
+
+<div class=" d-flex justify-content-center ">
+	<button type="submit" class="btn btn-success m-3 w-25">{{ button_label | default('Ajouter')}}</button>
+</div>
+
+{{ form_end(categoriesForm) }}

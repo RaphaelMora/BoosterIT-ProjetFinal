@@ -1,0 +1,14 @@
+{#http://localhost:8001/admin/categories/ajouter#}
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajout Catégories
+{% endblock %}
+
+{% block body %}
+	<h2>Ajout d'une nouvelle catégories</h2>
+	<section class="row">
+		<article class="col">
+			{% include 'admin/categories/_form.html.twig' %}
+		</article>
+	</section>
+{% endblock %}

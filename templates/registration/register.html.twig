@@ -1,0 +1,33 @@
+{#http://localhost:8001/inscription#}
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription
+{% endblock %}
+
+{% block body %}
+	<section class="row">
+		<article class="col">
+			<h2>Inscription</h2>
+			{{ form_errors(registrationForm) }}
+			{{ form_start(registrationForm) }}
+			<fieldset class="mb-3">
+				<legend>À propos de vous :</legend>
+				{{ form_row(registrationForm.email) }}
+				{{ form_row(registrationForm.lastname) }}
+				{{ form_row(registrationForm.firstname) }}
+			</fieldset>
+			<fieldset class="mb-3">
+				<legend>Coordonnées :</legend>
+				{{ form_row(registrationForm.adress) }}
+				{{ form_row(registrationForm.zipcode) }}
+				{{ form_row(registrationForm.city) }}
+			</fieldset>
+			{{ form_row(registrationForm.plainPassword, {
+                    label: 'Password'
+                }) }}
+			{{ form_row(registrationForm.RGPDConsent) }}
+			<button type="submit" class="btn btn-success mt-3 mb-3">M'inscrire</button>
+			{{ form_end(registrationForm) }}
+		</article>
+	</section>
+{% endblock %}

@@ -1,0 +1,84 @@
+{#{% if products.slug in ['Clementine', 'Framboise', 'Banane', 'Abricot', 'Raisins','Pomme'] %}#}
+{#    {% set rating = 5 %} #}
+{# Notation fixe pour les produits avec des slugs spécifiques #}
+{#{% else %}#}
+{#    {% set rating = random(1, 5) %} #}
+{# Notation aléatoire pour les autres produits #}
+{#{% endif %}#}
+{#								{% for i in 1..5 %}#}
+{#                                    {% if i <= rating %}#}
+{#                                        <i class="fas fa-heart text-danger"></i>#}
+{#                                    {% else %}#}
+{#                                        <i class="far fa-heart  text-danger"></i>#}
+{#                                    {% endif %}#}
+{#                                {% endfor %}#}
+	<div class="p-5"> <div class="d-flex">
+		{% if app.user %}
+			{% set likeCount = products.likes|length %}
+			<a href="{{ path('app_like', {'id': products.id}) }}" data-action="like" data-id="{{ products.id }}">
+				<i class='fas fa-heart {{ products.isLiked(app.user) ? "text-danger" : "text-success" }}'></i>
+			</a>
+			<span>
+				{% if likeCount == 0 %}
+					Ce produit n'a pas de like pour le moment.
+				{% else %}
+					{{ likeCount }}
+					{{ likeCount == 1 ? 'like' : 'likes' }}
+				{% endif %}
+			</span>
+		{% endif %}
+	</div>
+</div>
+{% block javascripts %}
+	<script>
+		class Like {
+constructor(likeElement) {
+this.likeElement = likeElement;
+
+if (this.likeElement) {
+this.init();
+}
+}
+
+init() {
+this.likeElement.forEach(element => {
+element.addEventListener('click', (e) => this.onClick(e, element));
+});
+}
+
+onClick(e, element) {
+e.preventDefault();
+const url = element.href;
+
+axios.get(url).then(res => {
+const nbLikes = res.data.nbLike;
+const span = element.parentNode.querySelector('span');
+const heartIcon = element.querySelector('i.fa-heart');
+
+// Mise à jour du nombre de likes
+if (nbLikes === 0) {
+span.innerHTML = "Ce produit n'a pas de like pour le moment.";
+} else {
+span.innerHTML = ` Ce produit est aimé par ${nbLikes} ${
+nbLikes === 1 ? 'like' : 'likes'
+} `;
+}
+
+// Changement de la couleur du cœur
+heartIcon.classList.toggle('text-danger', res.data.isLiked);
+heartIcon.classList.toggle('text-success', !res.data.isLiked);
+});
+}
+
+
+}
+
+// Assurez-vous que le DOM est complètement chargé
+document.addEventListener('DOMContentLoaded', () => {
+const likeElements = Array.from(document.querySelectorAll('a[data-action="like"]'));
+if (likeElements.length > 0) {
+new Like(likeElements);
+}
+});
+	</script>
+{% endblock %}

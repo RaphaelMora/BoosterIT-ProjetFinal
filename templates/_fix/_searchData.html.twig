@@ -1,0 +1,10 @@
+{{ form_start(form) }}
+<div class="row mt-2">
+	<div class="col-md-9 col-12 mb-2 mb-md-0">
+		{{ form_widget(form.q, {'attr': {'class': 'form-control'}}) }}
+	</div>
+	<div class="col-md-3 col-12 d-flex align-items-center">
+		<button type="submit" class="btn btn-success w-100">Chercher</button>
+	</div>
+</div>
+{{ form_end(form) }}
