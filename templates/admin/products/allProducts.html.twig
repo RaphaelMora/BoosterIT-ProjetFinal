@@ -43,7 +43,6 @@
 						{% endfor %}
 					</ul>
 				{% endfor %}
-				<button class="btn btn-success" type="submit">Filtrer</button>
 			</form>
 		</article>
 		{# Cartes de Produits #}
@@ -73,30 +72,22 @@
 {% endblock %}
 {% block javascripts %}
 	<script>
-		document.addEventListener('DOMContentLoaded', () => { // Sélectionne tous les éléments de formulaire de produit
-const productChecks = document.querySelectorAll('.form-check-input');
+		document.addEventListener('DOMContentLoaded', () => {
+			document.querySelectorAll('.form-check-input').forEach(check => {
+				check.addEventListener('change', () => {
+					const checkedProducts = new Set(
+							Array.from(document.querySelectorAll('.form-check-input:checked'))
+									.map(check => check.value.toLowerCase())
+					);
 
-// Ajoute un écouteur d'événement pour chaque case à cocher
-productChecks.forEach(check => {
-check.addEventListener('change', filterProducts);
-});
+					document.querySelectorAll('.col-lg-10 .card').forEach(card => {
+						const isVisible = checkedProducts.size === 0 ||
+								checkedProducts.has(card.querySelector('.card-title').textContent.toLowerCase());
+						card.parentElement.style.display = isVisible ? '' : 'none';
+					});
+				});
+			});
+		});
 
-function filterProducts() { // Obtient les noms des produits cochés
-const checkedProducts = Array.from(productChecks).filter(check => check.checked).map(check => check.value.toLowerCase());
-
-// Sélectionne toutes les cartes de produits
-const productCards = document.querySelectorAll('.col-lg-10 .card');
-
-// Affiche ou masque les cartes en fonction de la sélection
-productCards.forEach(card => {
-const productName = card.querySelector('.card-title').textContent.toLowerCase();
-if (checkedProducts.length === 0 || checkedProducts.includes(productName)) {
-card.parentElement.style.display = ''; // Affiche la carte
-} else {
-card.parentElement.style.display = 'none'; // Masque la carte
-}
-});
-}
-});
 	</script>
 {% endblock %}

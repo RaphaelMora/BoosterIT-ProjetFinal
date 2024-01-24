@@ -8,7 +8,7 @@
 		{% for product in products %}
 			<div class="col-sm-12 col-md-6 col-lg-4">
 				<div class="card">
-					<img class="card-img-top" style="width: 75%; max-width: 300px; margin: auto;" src="{{ asset('assets/uploads/products/mini/300x300-' ~ product.images[0].name) }}" alt="{{ product.name }}">
+					<img class="card-img-top" src="{{ asset('assets/uploads/products/' ~ product.images[0].name) }}" alt="{{ product.name }}" style="height: 200px; object-fit: cover;">
 					<div class="card-body text-center">
 						<h5 class="card-title">{{ product.name }}</h5>
 						<p class="card-text">{{ product.description }}</p>

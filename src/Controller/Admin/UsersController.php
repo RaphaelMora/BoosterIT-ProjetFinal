@@ -25,8 +25,8 @@ class UsersController extends AbstractController
     #[Route('/changement-role/{id}', name: 'update_role')]
     public function updateRole(Request $request, Users $user, EntityManagerInterface $entityManager): Response
     {
-        // Vérifie si l'utilisateur actuel a le rôle 'ROLE_ADMIN', et restreint l'accès s'il ne l'a pas
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        // Vérifie si l'utilisateur actuel a le rôle 'ROLE_SUPER_ADMIN', et restreint l'accès s'il ne l'a pas
+        $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN');
         // Récupère le nouveau rôle depuis la requête
         $newRole = $request->request->get('role');
         // Met à jour le rôle de l'utilisateur
